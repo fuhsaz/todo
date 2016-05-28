@@ -1,0 +1,21 @@
+version: '2'
+services:
+    todo-app:
+        image: todo
+        external_links:
+            - todo-postgresql:postgresql
+            - todo-elasticsearch:elasticsearch
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/todo
+            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=elasticsearch:9300
+        ports:
+            - 8080:8080
+    todo-postgresql:
+        extends:
+            file: postgresql.yml
+            service: todo-postgresql
+    todo-elasticsearch:
+        extends:
+            file: elasticsearch.yml
+            service: todo-elasticsearch
